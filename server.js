@@ -1,15 +1,29 @@
-var require = require("mysql")
-var express = require("express")
+var express = require("express");
+
+var PORT = process.env.PORT || 8080;
+
+var app = express();
+
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+
+// Parse application body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Set Handlebars.
 var exphbs = require("express-handlebars");
-var schema = require("./db/schema.sql")
-var seeds = require("./db/seeds.sql")
 
-// Run the schema.sql and seeds.sql files into the mysql server from the command line
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-// Make sure you're in the db folder of your app.
-// Start MySQL command line tool and login: mysql - u root - p.
-// With the mysql > command line tool running, enter the command source schema.sql.This will run your schema file and all of the queries in it-- in other words, you'll be creating your database.
+// Import routes and give the server access to them.
+var routes = require("./controllers/burgers_controller.js");
 
-// Now insert the entries you defined in seeds.sql by running the file: source seeds.sql.
+app.use(routes);
 
-// Close out of the MySQL command line tool: exit.
+// Start our server so that it can begin listening to client requests.
+app.listen(PORT, function () {
+    // Log (server-side) when our server has started
+    console.log("Server listening on: http://localhost:" + PORT);
+});

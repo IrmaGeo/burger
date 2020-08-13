@@ -1,0 +1,52 @@
+{{!-- Setup the index.handlebars to have the template that Handlebars can render onto.
+
+Create a button in index.handlebars that will submit the user input into the database. --}}
+
+<h1>Choose Burger</h1>
+
+<ul>
+    {{#each burgers}}
+    <li>
+        <p>
+            {{this.id}}. {{this.burger_name}}
+            <button data-movieid="{{this.id}}">Devour it!</button> {{!--class="delmovie"--}}
+        </p>
+    </li>
+    {{/each}}
+</ul>
+
+<h2>Add a burger to eat</h2>
+<form id="addburger" class="button-size">
+    <textarea type="text" name="burger"></textarea>
+    <button type="submit">Save burger!</button>
+</form>
+
+{{!-- <h2>Update a burger</h2>
+<form id="updateburger" class="button-size">
+    <input type="text" name="id" placeholder="id">
+    <textarea type="text" name="burger" placeholder=""></textarea>
+    <button type="submit">Devoured!</button>
+</form> --}}
+<script>
+    $("#addburger").on("submit", function (event) {
+        // Make sure to preventDefault on a submit event.
+        event.preventDefault();
+
+        var newBurger = {
+            burger_name: $("#addburger [name=burger]").val().trim()
+        };
+
+        // Send the POST request.
+        $.ajax("/api/burgers", {
+            type: "POST",
+            data: newBurger
+        }).then(
+            function () {
+                console.log("added new burger");
+                // Reload the page to get the updated list
+                location.reload();
+            }
+        );
+    });
+
+</script>
