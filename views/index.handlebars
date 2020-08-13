@@ -1,52 +1,100 @@
-{{!-- Setup the index.handlebars to have the template that Handlebars can render onto.
+<main class="main">
 
-Create a button in index.handlebars that will submit the user input into the database. --}}
 
-<h1>Choose Burger</h1>
+    <header>Choose Burger
+        <img src="/public/assets/img/burger.png" alt="burger's photo">
+    </header>
+    <div class="row">
 
-<ul>
-    {{#each burgers}}
-    <li>
-        <p>
-            {{this.id}}. {{this.burger_name}}
-            <button data-movieid="{{this.id}}">Devour it!</button> {{!--class="delmovie"--}}
-        </p>
-    </li>
-    {{/each}}
-</ul>
 
-<h2>Add a burger to eat</h2>
-<form id="addburger" class="button-size">
-    <textarea type="text" name="burger"></textarea>
-    <button type="submit">Save burger!</button>
-</form>
+        <div class="col-sm-6 left">
+            <ul class="left">
+                {{#each burgers}}
+                {{#unless devoured}}
+                <li>
+                    <p>
+                        {{this.id}} - {{this.burger_name}}
+                        <button data-moveied="{{this.id}}" class="devoured" type="button" id="devoured">Devour
+                            it!</button>
+                    </p>
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
 
-{{!-- <h2>Update a burger</h2>
-<form id="updateburger" class="button-size">
-    <input type="text" name="id" placeholder="id">
-    <textarea type="text" name="burger" placeholder=""></textarea>
-    <button type="submit">Devoured!</button>
-</form> --}}
+        </div>
+        <div class="col-sm-6 right">
+            <h2>Devoured burger!</h2>
+            {{!-- <form id="Devour" class="button-size"></form> --}}
+            <ul>
+                {{#each burgers}}
+                {{#if devoured}}
+                <li>
+                    <p>
+                        {{this.id}} - {{this.burger_name}}
+                    </p>
+                </li>
+                {{/if}}
+                {{/each}}
+            </ul>
+            {{!-- </form> --}}
+        </div>
+    </div>
+
+    <div class="center">
+        <h2>Add a burger to eat</h2>
+        <form id="addburger" class="button-size">
+            <textarea type="text" name="burger"></textarea>
+            <button type="submit">Save burger!</button>
+        </form>
+    </div>
+</main>
+
 <script>
-    $("#addburger").on("submit", function (event) {
-        // Make sure to preventDefault on a submit event.
-        event.preventDefault();
+    $(function () {
+        $("#addburger").on("submit", function (event) {
+            // Make sure to preventDefault on a submit event.
+            event.preventDefault();
+            console.log("nino")
+            var newBurger = {
+                burger_name: $("#addburger [name=burger]").val().trim()
+            };
 
-        var newBurger = {
-            burger_name: $("#addburger [name=burger]").val().trim()
-        };
+            // Send the POST request.
+            $.ajax("/api/burgers", {
+                type: "POST",
+                data: newBurger
+            }).then(
+                function () {
+                    console.log("added new burger");
+                    // Reload the page to get the updated list
+                    location.reload();
+                }
+            );
+        });
+        // update devoured status
+        $("#devoured").on("click", function (event) {
+            console.log("clicked handlebar")
+            var id = $(this).data("moveied");
+            console.log($(this).data)
+            event.preventDefault();
+            var updated = {
+                devoured: 1
+            };
+            console.log(updated)
+            $.ajax("/api/burgers/" + id, {
+                type: "put",
+                data: updated
+            }).then(
+                function () {
+                    console.log("upodated burger");
+                    // Reload the page to get the updated list
+                    location.reload();
+                }
+            );
 
-        // Send the POST request.
-        $.ajax("/api/burgers", {
-            type: "POST",
-            data: newBurger
-        }).then(
-            function () {
-                console.log("added new burger");
-                // Reload the page to get the updated list
-                location.reload();
-            }
-        );
-    });
+        })
 
+
+    })
 </script>

@@ -12,12 +12,12 @@ var burger = {
     },
     insertOne: function (cols, vals, cb) {
         orm.insertOne("burgers", cols, vals, function (res) {
-            console.log(vals + "value")
             cb(res)
 
         })
     },
     updateOne: function (objColVals, condition, cb) {
+        console.log("clicked")
         orm.updateOne("burgers", objColVals, condition, function (res) {
             cb(res)
         })
