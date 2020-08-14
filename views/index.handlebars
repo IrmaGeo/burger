@@ -1,54 +1,76 @@
 <main class="main">
 
-
-    <header>Choose Burger
-        <img src="/public/assets/img/burger.png" alt="burger's photo">
-    </header>
-    <div class="row">
-
-
-        <div class="col-sm-6 left">
-            <ul class="left">
-                {{#each burgers}}
-                {{#unless devoured}}
-                <li>
-                    <p>
-                        {{this.id}} - {{this.burger_name}}
-                        <button data-moveied="{{this.id}}" class="devoured" type="button" id="devoured">Devour
-                            it!</button>
-                    </p>
-                </li>
-                {{/unless}}
-                {{/each}}
-            </ul>
-
+    <img src="/assets/img/burger.png" class="img-fluid" alt="Responsive image">
+    <header>Choose Burger</header>
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Burger List</h5>
+                    <ul class="list-group list-group-flush">
+                        {{#each burgers}}
+                        {{#unless devoured}}
+                        <li>
+                            <p>
+                                {{this.id}} - {{this.burger_name}}
+                                <button data-moveied="{{this.id}}" class="devoured" type="button" id="devoured">Devour
+                                    it!</button>
+                            </p>
+                        </li>
+                        {{/unless}}
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6 right">
-            <h2>Devoured burger!</h2>
-            {{!-- <form id="Devour" class="button-size"></form> --}}
-            <ul>
-                {{#each burgers}}
-                {{#if devoured}}
-                <li>
-                    <p>
-                        {{this.id}} - {{this.burger_name}}
-                    </p>
-                </li>
-                {{/if}}
-                {{/each}}
-            </ul>
-            {{!-- </form> --}}
+        <div class="col mb-6">
+            <div class="card">
+
+                <div class="card-body">
+                    <h5 class="card-title">Devoured Burger!!</h5>
+                    <ul class="list-group list-group-flush">
+                        {{#each burgers}}
+                        {{#if devoured}}
+                        <li>
+                            <p>
+                                {{this.id}} - {{this.burger_name}}
+                            </p>
+                        </li>
+                        {{/if}}
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
         </div>
+
+
     </div>
+
+
+
+
 
     <div class="center">
         <h2>Add a burger to eat</h2>
         <form id="addburger" class="button-size">
             <textarea type="text" name="burger"></textarea>
-            <button type="submit">Save burger!</button>
+            <button type="submit" id="submit">Save burger!</button>
+
         </form>
     </div>
 </main>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
     $(function () {
