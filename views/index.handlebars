@@ -34,6 +34,8 @@
                         <li>
                             <p>
                                 {{this.id}} - {{this.burger_name}}
+                                <button data-moveied="{{this.id}}" class="deleted" type="button"
+                                    id="deleted">Delete</button>
                             </p>
                         </li>
                         {{/if}}
@@ -42,14 +44,7 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
-
-
-
     <div class="center">
         <h2>Add a burger to eat</h2>
         <form id="addburger" class="button-size">
@@ -59,18 +54,6 @@
         </form>
     </div>
 </main>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
     $(function () {
@@ -115,8 +98,22 @@
                 }
             );
 
-        })
+        });
+        //delete devoured burger
+        $("#deleted").on("click", function (event) {
+            let id = $(this).data("moveied");
+            event.preventDefault();
+            $.ajax("/api/burgers/" + id, {
+                type: "delete"
+            }).then(
+                function () {
+                    console.log("deleted item")
+                    // Reload the page to get the updated list
+                    location.reload();
+                }
+            );
 
+        })
 
     })
 </script>

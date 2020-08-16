@@ -32,6 +32,13 @@ router.get("/", function (req, res) {
             }
         })
     });
+    router.delete("/api/burgers/:id", function (req, res) {
+        var condition = "id =" + req.params.id;
+        burger.deleteOne(condition, function (result) {
+            res.json(result)
+
+        })
+    });
 });
 // and export the router at the end of your file.
 module.exports = router;
