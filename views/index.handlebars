@@ -13,7 +13,7 @@
                         <li>
                             <p>
                                 {{this.id}} - {{this.burger_name}}
-                                <button data-moveied="{{this.id}}" class="devoured" type="button" id="devoured">Devour
+                                <button data-moveied="{{this.id}}" class="devoured" type="button">Devour
                                     it!</button>
                             </p>
                         </li>
@@ -34,8 +34,7 @@
                         <li>
                             <p>
                                 {{this.id}} - {{this.burger_name}}
-                                <button data-moveied="{{this.id}}" class="deleted" type="button"
-                                    id="deleted">Delete</button>
+                                <button data-moveied="{{this.id}}" class="deleted" type="button">Delete</button>
                             </p>
                         </li>
                         {{/if}}
@@ -78,7 +77,7 @@
             );
         });
         // update devoured status
-        $("#devoured").on("click", function (event) {
+        $(".devoured").on("click", function (event) {
             console.log("clicked handlebar")
             var id = $(this).data("moveied");
             console.log($(this).data)
@@ -100,7 +99,7 @@
 
         });
         //delete devoured burger
-        $("#deleted").on("click", function (event) {
+        $(".deleted").on("click", function (event) {
             let id = $(this).data("moveied");
             event.preventDefault();
             $.ajax("/api/burgers/" + id, {
